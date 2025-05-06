@@ -32,6 +32,7 @@ public class Cliente {
     
     @UpdateTimestamp
     private LocalDate dataCadastro;
+    
 
     public String getCpf() {
         return cpf;

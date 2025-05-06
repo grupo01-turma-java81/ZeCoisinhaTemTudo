@@ -23,7 +23,7 @@ public class ClienteService {
 		.body(clienteRepository.findAll());
     }
     
-    public ResponseEntity<Cliente> buscarPorId(Long cpf) {
+    public ResponseEntity<Cliente> buscarPorId(String cpf) {
 	return clienteRepository.findById(cpf)
 		.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
 		.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -40,13 +40,13 @@ public class ClienteService {
     }
     
     public ResponseEntity<Cliente> atualizarCliente(Cliente cliente) {
-	if (clienteRepository.existsById(Long.valueOf(cliente.getCpf()))) {
+	if (clienteRepository.existsById(cliente.getCpf())) {
 	    return ResponseEntity.status(HttpStatus.CREATED).body(clienteRepository.save(cliente));
 	}
 	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     
-    public void excluirCliente(Long cpf) {
+    public void excluirCliente(String cpf) {
 	Optional<Cliente> cliente = clienteRepository.findById(cpf);
 	
 	if (cliente.isEmpty()) {

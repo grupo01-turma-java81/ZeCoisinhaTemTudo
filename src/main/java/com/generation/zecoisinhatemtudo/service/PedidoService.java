@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.generation.zecoisinhatemtudo.model.Pedido;
-import com.generation.zecoisinhatemtudo.Cliente;
+
+import com.generation.zecoisinhatemtudo.repository.ClienteRepository;
 import com.generation.zecoisinhatemtudo.repository.PedidoRepository;
 
 @Service
@@ -33,7 +34,7 @@ public class PedidoService {
     }
 
     public Pedido criarPedido(Pedido pedido) {
-        if (!clienteRepository.existsById(pedido.getCliente().getId())) {
+        if (!clienteRepository.existsById(pedido.getCliente().getCpf())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não existe!");
         }
         return pedidoRepository.save(pedido);
@@ -44,7 +45,7 @@ public class PedidoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado!");
         }
 
-        if (!clienteRepository.existsById(pedido.getCliente().getId())) {
+        if (!clienteRepository.existsById(pedido.getCliente().getCpf())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não existe!");
         }
 
