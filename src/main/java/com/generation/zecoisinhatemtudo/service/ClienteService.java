@@ -23,6 +23,7 @@ public class ClienteService {
 		.body(clienteRepository.findAll());
     }
     
+
     public ResponseEntity<Cliente> buscarPorId(String cpf) {
 	return clienteRepository.findById(cpf)
 		.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
@@ -53,6 +54,6 @@ public class ClienteService {
 	    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinte não existe!", null);
 	}
 	
-	clienteRepository.deleteById(cpf);
+	clienteRepository.deleteById(String.valueOf(cpf));
     }
 }
