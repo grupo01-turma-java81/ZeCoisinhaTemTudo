@@ -21,42 +21,45 @@ import com.generation.zecoisinhatemtudo.service.ClienteService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/clientes")
 public class ClienteController {
-    
+
     @Autowired
     private ClienteService clienteService;
-    
+
     @GetMapping
     public ResponseEntity<List<Cliente>> getAll() {
-	return clienteService.buscarTodosClientes();
+        return clienteService.buscarTodosClientes();
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> getById(@PathVariable Long id) {
-	return clienteService.buscarPorId(id);
+        return clienteService.buscarPorId(id);
     }
-    
+
     @GetMapping("/nome/{nome}")
     public ResponseEntity<List<Cliente>> getByNome(@PathVariable String nome) {
-	return clienteService.buscarPorNome(nome);
+        return clienteService.buscarPorNome(nome);
     }
-    
+
     @PostMapping
     public ResponseEntity<Cliente> postCliente(@Valid @RequestBody Cliente cliente) {
-   	return clienteService.cadastrarCliente(cliente);
+        return clienteService.cadastrarCliente(cliente);
     }
-    
+
     @PutMapping
     public ResponseEntity<Cliente> putCliente(@Valid @RequestBody Cliente cliente) {
-	return clienteService.atualizarCliente(cliente);
+        return clienteService.atualizarCliente(cliente);
     }
-    
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteCliente(@PathVariable Long id) {
-	clienteService.excluirCliente(id);
+        clienteService.excluirCliente(id);
     }
-    
-    
+
+    @GetMapping("/oportunidades")
+    public ResponseEntity<List<Cliente>> getByOportunidade() {
+        return clienteService.oportunidade();
+    }
 }

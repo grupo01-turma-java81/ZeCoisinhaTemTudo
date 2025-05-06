@@ -15,45 +15,53 @@ import com.generation.zecoisinhatemtudo.repository.ClienteRepository;
 @Service
 public class ClienteService {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
-    
-    public ResponseEntity<List<Cliente>> buscarTodosClientes() {
-	return ResponseEntity.status(HttpStatus.OK)
-		.body(clienteRepository.findAll());
-    }
-    
+	@Autowired
+	private ClienteRepository clienteRepository;
 
-    public ResponseEntity<Cliente> buscarPorId(String cpf) {
-	return clienteRepository.findById(cpf)
-		.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
-		.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-    
-    public ResponseEntity<List<Cliente>> buscarPorNome(String nome) {
-	return ResponseEntity.status(HttpStatus.OK)
-		.body(clienteRepository.findByNomeContainingIgnoreCase(nome));
-    }
-    
-    public ResponseEntity<Cliente> cadastrarCliente(Cliente cliente) {
-	return ResponseEntity.status(HttpStatus.CREATED)
-		.body(clienteRepository.save(cliente));
-    }
-    
-    public ResponseEntity<Cliente> atualizarCliente(Cliente cliente) {
-	if (clienteRepository.existsById(cliente.getCpf())) {
-	    return ResponseEntity.status(HttpStatus.CREATED).body(clienteRepository.save(cliente));
+	public ResponseEntity<List<Cliente>> buscarTodosClientes() {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(clienteRepository.findAll());
 	}
-	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-    
-    public void excluirCliente(String cpf) {
-	Optional<Cliente> cliente = clienteRepository.findById(cpf);
-	
-	if (cliente.isEmpty()) {
-	    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinte não existe!", null);
+
+	public ResponseEntity<Cliente> buscarPorId(Long cpf) {
+		return clienteRepository.findById(String.valueOf(cpf))
+				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
-	
-	clienteRepository.deleteById(String.valueOf(cpf));
-    }
+
+	public ResponseEntity<List<Cliente>> buscarPorNome(String nome) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(clienteRepository.findByNomeContainingIgnoreCase(nome));
+	}
+
+	public ResponseEntity<Cliente> cadastrarCliente(Cliente cliente) {
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(clienteRepository.save(cliente));
+	}
+
+	public ResponseEntity<Cliente> atualizarCliente(Cliente cliente) {
+		if (clienteRepository.existsById(cliente.getCpf())) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(clienteRepository.save(cliente));
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
+
+	public void excluirCliente(Long cpf) {
+		Optional<Cliente> cliente = clienteRepository.findById(String.valueOf(cpf));
+
+		if (cliente.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinte não existe!", null);
+		}
+
+		clienteRepository.deleteById(String.valueOf(cpf));
+	}
+
+	public ResponseEntity<List<Cliente>> oportunidade() {
+		List<Cliente> oportunidades = clienteRepository.findAll()
+				.stream()
+				.filter(cliente -> cliente.getPedido().stream().anyMatch(pedido -> pedido.getpositivo() == true))
+				.toList();
+
+		return ResponseEntity.status(HttpStatus.OK).body(oportunidades);
+	}
 }

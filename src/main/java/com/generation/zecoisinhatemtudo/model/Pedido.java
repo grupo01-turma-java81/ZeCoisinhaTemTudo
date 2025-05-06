@@ -3,6 +3,7 @@ package com.generation.zecoisinhatemtudo.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "tb_pedidos")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Pedido {
 
     @Id
@@ -26,12 +28,15 @@ public class Pedido {
     @NotNull
     private BigDecimal valorTotal;
 
-    @Size(max = 250)
-    private String avaliacao;
+    private Boolean positivo;
 
     @ManyToOne
     @JsonIgnoreProperties("pedido")
     private Cliente cliente;
+
+    @ManyToOne
+    @JsonIgnoreProperties("pedido")
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -65,12 +70,12 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
-    public String getAvaliacao() {
-        return avaliacao;
+    public Boolean getpositivo() {
+        return positivo;
     }
 
-    public void setAvaliacao(String avaliacao) {
-        this.avaliacao = avaliacao;
+    public void setpositivo(Boolean positivo) {
+        this.positivo = positivo;
     }
 
     public Cliente getCliente() {
@@ -79,5 +84,13 @@ public class Pedido {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
