@@ -24,7 +24,7 @@ public class ClienteService {
     }
     
     public ResponseEntity<Cliente> buscarPorId(Long cpf) {
-	return clienteRepository.findById(cpf)
+	return clienteRepository.findById(String.valueOf(cpf))
 		.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
 		.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
@@ -40,19 +40,19 @@ public class ClienteService {
     }
     
     public ResponseEntity<Cliente> atualizarCliente(Cliente cliente) {
-	if (clienteRepository.existsById(Long.valueOf(cliente.getCpf()))) {
+	if (clienteRepository.existsById(cliente.getCpf())) {
 	    return ResponseEntity.status(HttpStatus.CREATED).body(clienteRepository.save(cliente));
 	}
 	return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     
     public void excluirCliente(Long cpf) {
-	Optional<Cliente> cliente = clienteRepository.findById(cpf);
+	Optional<Cliente> cliente = clienteRepository.findById(String.valueOf(cpf));
 	
 	if (cliente.isEmpty()) {
 	    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinte não existe!", null);
 	}
 	
-	clienteRepository.deleteById(cpf);
+	clienteRepository.deleteById(String.valueOf(cpf));
     }
 }
