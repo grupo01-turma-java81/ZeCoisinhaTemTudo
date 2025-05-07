@@ -57,14 +57,20 @@ public class ClienteService {
 	}
 
 	public ResponseEntity<List<Cliente>> oportunidade() {
-		List<Cliente> oportunidades = clienteRepository.findAll()
-				.stream()
-				.filter(cliente -> Optional.ofNullable(cliente.getPedido())
-						.orElse(List.of())
-						.stream()
-						.anyMatch(pedido -> pedido.getPositivo()))
-				.toList();
+		try {
+			List<Cliente> oportunidades = clienteRepository.findAll()
+					.stream()
+					.filter(cliente -> Optional.ofNullable(cliente.getPedido())
+							.orElse(List.of())
+							.stream()
+							.anyMatch(pedido -> Boolean.TRUE.equals(pedido.getPositivo())))
+					.toList();
 
-		return ResponseEntity.status(HttpStatus.OK).body(oportunidades);
+			return ResponseEntity.status(HttpStatus.OK).body(oportunidades);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno: " + e.getMessage(), e);
+		}
 	}
 }
