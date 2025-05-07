@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.generation.zecoisinhatemtudo.model.Cliente;
 import com.generation.zecoisinhatemtudo.model.Pedido;
 
 import com.generation.zecoisinhatemtudo.repository.ClienteRepository;
@@ -34,9 +36,11 @@ public class PedidoService {
     }
 
     public Pedido criarPedido(Pedido pedido) {
-        if (!clienteRepository.existsById(pedido.getCliente().getCpf())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não existe!");
-        }
+        Optional.ofNullable(pedido.getCliente())
+                .map(Cliente::getCpf)
+                .filter(cliente -> clienteRepository.existsById(String.valueOf(cliente)))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não existe!", null));
+
         return pedidoRepository.save(pedido);
     }
 

@@ -59,7 +59,10 @@ public class ClienteService {
 	public ResponseEntity<List<Cliente>> oportunidade() {
 		List<Cliente> oportunidades = clienteRepository.findAll()
 				.stream()
-				.filter(cliente -> cliente.getPedido().stream().anyMatch(pedido -> pedido.getpositivo() == true))
+				.filter(cliente -> Optional.ofNullable(cliente.getPedido())
+						.orElse(List.of())
+						.stream()
+						.anyMatch(pedido -> pedido.getpositivo()))
 				.toList();
 
 		return ResponseEntity.status(HttpStatus.OK).body(oportunidades);
