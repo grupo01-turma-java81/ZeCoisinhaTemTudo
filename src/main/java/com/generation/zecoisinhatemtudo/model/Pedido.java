@@ -70,11 +70,11 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
-    public Boolean getpositivo() {
+    public Boolean getPositivo() {
         return positivo;
     }
 
-    public void setpositivo(Boolean positivo) {
+    public void setPositivo(Boolean positivo) {
         this.positivo = positivo;
     }
 

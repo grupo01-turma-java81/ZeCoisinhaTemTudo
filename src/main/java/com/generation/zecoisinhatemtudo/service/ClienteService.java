@@ -62,7 +62,7 @@ public class ClienteService {
 				.filter(cliente -> Optional.ofNullable(cliente.getPedido())
 						.orElse(List.of())
 						.stream()
-						.anyMatch(pedido -> pedido.getpositivo()))
+						.anyMatch(pedido -> pedido.getPositivo()))
 				.toList();
 
 		return ResponseEntity.status(HttpStatus.OK).body(oportunidades);
