@@ -1,10 +1,11 @@
 package com.generation.zecoisinhatemtudo.model;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
@@ -18,8 +19,9 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @UpdateTimestamp
-    private ZonedDateTime dataPedido;
+    private LocalDate dataPedido;
 
     @NotBlank
     private String statusEntrega;
@@ -38,58 +40,58 @@ public class Pedido {
     private Usuario usuario;
 
     public Long getId() {
-	return id;
+        return id;
     }
 
     public void setId(Long id) {
-	this.id = id;
+        this.id = id;
     }
 
-    public ZonedDateTime getDataPedido() {
-	return dataPedido;
+    public LocalDate getDataPedido() {
+        return dataPedido;
     }
 
-    public void setDataPedido(ZonedDateTime dataPedido) {
-	this.dataPedido = dataPedido;
+    public void setDataPedido(LocalDate dataPedido) {
+        this.dataPedido = dataPedido;
     }
 
     public String getStatusEntrega() {
-	return statusEntrega;
+        return statusEntrega;
     }
 
     public void setStatusEntrega(String statusEntrega) {
-	this.statusEntrega = statusEntrega;
+        this.statusEntrega = statusEntrega;
     }
 
     public BigDecimal getValorTotal() {
-	return valorTotal;
+        return valorTotal;
     }
 
     public void setValorTotal(BigDecimal valorTotal) {
-	this.valorTotal = valorTotal;
+        this.valorTotal = valorTotal;
     }
 
     public Boolean getPositivo() {
-	return positivo;
+        return positivo;
     }
 
     public void setPositivo(Boolean positivo) {
-	this.positivo = positivo;
+        this.positivo = positivo;
     }
 
     public Cliente getCliente() {
-	return cliente;
+        return cliente;
     }
 
     public void setCliente(Cliente cliente) {
-	this.cliente = cliente;
+        this.cliente = cliente;
     }
 
     public Usuario getUsuario() {
-	return usuario;
+        return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
-	this.usuario = usuario;
+        this.usuario = usuario;
     }
 }

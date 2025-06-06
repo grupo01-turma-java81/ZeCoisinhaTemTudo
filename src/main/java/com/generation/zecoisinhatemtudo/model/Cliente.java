@@ -3,8 +3,10 @@ package com.generation.zecoisinhatemtudo.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -25,7 +27,6 @@ public class Cliente {
     private String cpf;
 
     @NotBlank(message = "O atributo nome não pode nulo e conter espaços em branco")
-    @Size(min = 5, message = "O atributo nome precisa ter no minimo 5 caracteres")
     private String nome;
 
     @NotBlank(message = "O atributo telefone não pode nulo e conter espaços em branco")
@@ -33,11 +34,10 @@ public class Cliente {
     private String telefone;
 
     @NotBlank(message = "O atributo endereço não pode nulo e conter espaços em branco")
-    @Size
-    @Size(min = 8, message = "O atributo nome precisa ter no minimo 8 caracteres")
     private String endereco;
 
-    @UpdateTimestamp
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @CreationTimestamp
     private LocalDate dataCadastro;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.REMOVE)
