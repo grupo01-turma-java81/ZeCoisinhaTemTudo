@@ -3,8 +3,6 @@ package com.generation.zecoisinhatemtudo.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -20,7 +18,6 @@ public class Pedido {
     private Long id;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @UpdateTimestamp
     private LocalDate dataPedido;
 
     @NotBlank
