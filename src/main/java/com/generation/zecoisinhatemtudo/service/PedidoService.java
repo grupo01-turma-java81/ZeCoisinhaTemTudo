@@ -37,8 +37,8 @@ public class PedidoService {
 
     public Pedido criarPedido(Pedido pedido) {
         Optional.ofNullable(pedido.getCliente())
-                .map(Cliente::getCpf)
-                .filter(cliente -> clienteRepository.existsById(String.valueOf(cliente)))
+                .map(Cliente::getId)
+                .filter(cliente -> clienteRepository.existsById(cliente))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não existe!", null));
 
         return pedidoRepository.save(pedido);
@@ -49,7 +49,7 @@ public class PedidoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado!");
         }
 
-        if (!clienteRepository.existsById(pedido.getCliente().getCpf())) {
+        if (!clienteRepository.existsById(pedido.getCliente().getId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não existe!");
         }
 

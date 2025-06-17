@@ -28,6 +28,14 @@ public class Pedido {
 
     private Boolean positivo;
 
+    @Min(1)
+    @Max(5)
+    @NotNull
+    private Integer nota;
+
+    @Size(max = 3000)
+    private String comentario;
+
     @ManyToOne
     @JsonIgnoreProperties("pedido")
     private Cliente cliente;
@@ -74,6 +82,22 @@ public class Pedido {
 
     public void setPositivo(Boolean positivo) {
         this.positivo = positivo;
+    }
+
+    public Integer getNota() {
+        return nota;
+    }
+
+    public void setNota(Integer nota) {
+        this.nota = nota;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 
     public Cliente getCliente() {

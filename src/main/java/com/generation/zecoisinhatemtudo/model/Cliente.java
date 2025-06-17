@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -22,17 +24,20 @@ import jakarta.validation.constraints.Size;
 public class Cliente {
 
     @Id
-    @Size(min = 10, max = 11, message = "O atributo cpf deve conter 11 caracteres")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Size(max = 16)
     private String cpf;
 
-    @NotBlank(message = "O atributo nome não pode nulo e conter espaços em branco")
+    @NotBlank(message = "O atributo nome não pode ser nulo")
     private String nome;
 
-    @NotBlank(message = "O atributo telefone não pode nulo e conter espaços em branco")
-    @Size(max = 14, message = "O atributo telefone precisa ter no minimo 14 caracteres")
+    @NotBlank(message = "O atributo telefone não pode ser nulo")
+    @Size(max = 16)
     private String telefone;
 
-    @NotBlank(message = "O atributo endereço não pode nulo e conter espaços em branco")
+    @NotBlank(message = "O atributo endereço não pode ser nulo")
     private String endereco;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -42,6 +47,14 @@ public class Cliente {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("cliente")
     private List<Pedido> pedido;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCpf() {
         return cpf;

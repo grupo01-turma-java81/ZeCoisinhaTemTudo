@@ -23,8 +23,8 @@ public class ClienteService {
 				.body(clienteRepository.findAll());
 	}
 
-	public ResponseEntity<Cliente> buscarPorId(Long cpf) {
-		return clienteRepository.findById(String.valueOf(cpf))
+	public ResponseEntity<Cliente> buscarPorId(Long id) {
+		return clienteRepository.findById(id)
 				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
@@ -40,20 +40,20 @@ public class ClienteService {
 	}
 
 	public ResponseEntity<Cliente> atualizarCliente(Cliente cliente) {
-		if (clienteRepository.existsById(cliente.getCpf())) {
+		if (clienteRepository.existsById(cliente.getId())) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(clienteRepository.save(cliente));
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
-	public void excluirCliente(Long cpf) {
-		Optional<Cliente> cliente = clienteRepository.findById(String.valueOf(cpf));
+	public void excluirCliente(Long id) {
+		Optional<Cliente> cliente = clienteRepository.findById(id);
 
 		if (cliente.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clinte não existe!", null);
 		}
 
-		clienteRepository.deleteById(String.valueOf(cpf));
+		clienteRepository.deleteById(id);
 	}
 
 	public ResponseEntity<List<Cliente>> oportunidade() {
